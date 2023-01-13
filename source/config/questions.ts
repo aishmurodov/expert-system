@@ -108,7 +108,7 @@ export const questions: QuestionTreeModel<questionsKeys> = {
         buttons: [
             {
                 text: "Менее 2-х лет",
-                query: "test-question"
+                query: "is-ready-to-study"
             },
             {
                 text: "От 2-х лет",
