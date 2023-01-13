@@ -4,7 +4,7 @@ import {Markup} from "telegraf";
 import {BOT_START_WORKING_WORDS} from "../config";
 
 export const StartAnswer: AnswerTypeInterface<ReplyKeyboardMarkup> = {
-    text: "Привет! Напиши мне слово ВУЗ, чтобы начать действовать!)",
+    text: "Привет! Напиши мне слово РАБОТА, чтобы начать действовать!)",
     keyboard: Markup.keyboard([
         [
             Markup.button.text(BOT_START_WORKING_WORDS.primary)
