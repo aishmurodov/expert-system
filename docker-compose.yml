@@ -1,0 +1,22 @@
+version: "3"
+services:
+  expert-bot:
+    image: node:16.11.0
+    container_name: expert-bot
+    working_dir: /application
+    restart: always
+    volumes:
+      - ./bot/:/application/
+    command: [ "npm", "run", "start" ]
+    env_file:
+      - .env
+    networks:
+      - app
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  app:
+    driver: bridge
