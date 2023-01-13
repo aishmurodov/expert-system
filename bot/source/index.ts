@@ -1,11 +1,11 @@
-import {Markup, Telegraf} from "telegraf"
+import {Telegraf} from "telegraf"
 import {BOT_API_TOKEN, BOT_START_WORKING_WORDS} from "./config";
 import {SessionMiddleware} from "./middlewares";
 import {StartAnswer} from "./answers";
 import {UserContext} from "./types";
 import {questions, questionsKeys} from "./config/questions";
 import {QuestionTypes} from "./models/QuestionModel";
-import { callbackQuery } from "telegraf/filters";
+import {callbackQuery} from "telegraf/filters";
 
 const app = new Telegraf<UserContext>(BOT_API_TOKEN)
 
