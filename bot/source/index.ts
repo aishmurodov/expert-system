@@ -3,7 +3,7 @@ import {BOT_API_TOKEN, BOT_START_WORKING_WORDS} from "./config";
 import {SessionMiddleware} from "./middlewares";
 import {StartAnswer} from "./answers";
 import {UserContext} from "./types";
-import {questions, questionsKeys} from "./config/questions";
+import {questionsKeys} from "./config/questions";
 import {QuestionTypes} from "./models/QuestionModel";
 import {callbackQuery} from "telegraf/filters";
 
@@ -34,10 +34,6 @@ app.on("callback_query", async (ctx, next) => {
     }
 
     const key = ctx.callbackQuery.data as questionsKeys
-
-    if (!(key in questions)) {
-        return ctx.editMessageText("Путь не найден")
-    }
 
     const answer = ctx.user.setAnswer(key)
 
