@@ -35,9 +35,13 @@ app.on("callback_query", async (ctx, next) => {
 
     const key = ctx.callbackQuery.data as questionsKeys
 
+    const button = ctx.user.currentQuestion.buttons.find(item => item.query === key)!
+
+    ctx.editMessageText(`${ctx.user.currentQuestion.text} \nВы выбрали вариант: ${button.text}`)
+
     const answer = ctx.user.setAnswer(key)
 
-    ctx.editMessageText(answer.text, {
+    ctx.sendMessage(answer.text, {
         ...answer.keyboard
     })
 })
