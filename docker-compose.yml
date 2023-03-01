@@ -3,18 +3,29 @@ services:
   expert-bot:
     container_name: expert-bot
     build: bot
+    working_dir: /application
     restart: always
     volumes:
       - ./bot/:/application/
+      - ./questions.json:/application/questions.json
     env_file:
       - .env
     networks:
-      - app
+      - expert-app
 
-volumes:
-  db-data:
-    driver: local
+  expert-bot-db:
+    image: mongo:4.4
+    container_name: expert-bot-db
+    restart: always
+    ports:
+      - "28291:27017"
+    env_file:
+      - .env
+    volumes:
+      - ./db-data:/data/db/
+    networks:
+      - expert-app
 
 networks:
-  app:
+  expert-app:
     driver: bridge

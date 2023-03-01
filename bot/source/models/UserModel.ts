@@ -3,47 +3,27 @@ import {AnswerTypeInterface} from "../types";
 import {InlineKeyboardMarkup} from "telegraf/typings/core/types/typegram";
 import {questions, questionsKeys} from "../config/questions";
 import {Markup} from "telegraf";
+import UserSchema, {UserSchemaInterface} from "../schemas/user.schema";
+import AnswerSchema from "../schemas/answer.schema";
 
 export interface UserInterface {
     user_id: number,
     currentQuestion?: QuestionModel<questionsKeys>
 }
 
-const users: { [key: string]: UserInterface } = {  }
-
 export class UserModel {
 
-    private readonly _model: UserInterface
+    private readonly _model: UserSchemaInterface
 
-    constructor(_model: UserInterface) {
+    constructor(_model: UserSchemaInterface) {
         this._model = _model
     }
 
-    public static create (payload: UserInterface) {
-        users[payload.user_id] = payload
-
-        return new UserModel(users[payload.user_id])
-    }
-
-    public static findById (user_id: UserInterface['user_id']) {
-        if (!(user_id in users)) {
-            return undefined
-        }
-        return new UserModel(users[user_id])
-    }
-
-    public get currentQuestion () {
+    public get currentQuestion() {
         return this._model.currentQuestion as QuestionModel<questionsKeys>
     }
 
-    public setQuestion (state: QuestionModel<questionsKeys>) {
-        users[this._model.user_id].currentQuestion = state
-        this._model.currentQuestion = state
-
-        return this
-    }
-
-    private get keyboard () {
+    public get keyboard() {
         const keyboard: any[][] = []
 
         if (this.currentQuestion.type === QuestionTypes.BUTTON) {
@@ -63,20 +43,56 @@ export class UserModel {
         return Markup.inlineKeyboard(keyboard)
     }
 
-    public setAnswer<T extends string>(data: T): AnswerTypeInterface<InlineKeyboardMarkup> {
+    public static async create(payload: UserInterface) {
+        return new UserModel(await UserSchema.create(payload))
+    }
+
+    public static async findById(user_id: UserInterface['user_id']) {
+        const user = await UserSchema.findOne({
+            user_id: user_id
+        })
+
+        return user ? new UserModel(user) : null
+    }
+
+    public async setQuestion(state: QuestionModel<questionsKeys> | null) {
+        await UserSchema.updateOne({
+            user_id: this._model.user_id
+        }, {
+            currentQuestion: state
+        })
+
+        this._model.currentQuestion = state ? state : undefined
+
+        return this
+    }
+
+    public async setAnswer<T extends string>(data: T): Promise<AnswerTypeInterface<InlineKeyboardMarkup>> {
         if (!(data in questions)) {
             return {
                 text: "Путь не найден",
             }
         }
 
-        this.setQuestion(questions[data])
+        await AnswerSchema.create({
+            user: this._model._id,
+            question: this._model.currentQuestion?.text,
+            answer: data
+        })
 
+        await this.setQuestion(questions[data])
 
-        return {
+        const response = JSON.parse(JSON.stringify({
             text: this.currentQuestion.text,
             keyboard: this.keyboard
+        }))
+
+        if (this.currentQuestion.type === QuestionTypes.EXIT) {
+            await this.setQuestion(null)
         }
+
+        return response
+
     }
 
 }

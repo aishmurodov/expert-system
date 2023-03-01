@@ -1,0 +1,136 @@
+{
+  "start": {
+    "type": "button",
+    "text": "Вы совершеннолетний?",
+    "buttons": [
+      {
+        "text": "Нет",
+        "query": "no-18-answer"
+      },
+      {
+        "text": "Да",
+        "query": "degree-question"
+      }
+    ]
+  },
+  "no-18-answer": {
+    "type": "exit",
+    "text": "Не берем. Приходите, когда будет  18 лет"
+  },
+  "degree-question": {
+    "type": "button",
+    "text": "Есть ли диплом о высшем образовании по технической специальности?",
+    "buttons": [
+      {
+        "text": "Нет",
+        "query": "commerce-question-with-no-degree"
+      },
+      {
+        "text": "Да",
+        "query": "commerce-question-with-degree"
+      }
+    ]
+  },
+  "commerce-question-with-no-degree": {
+    "type": "button",
+    "text": "Есть ли коммерческий опыт работы?",
+    "buttons": [
+      {
+        "text": "Нет",
+        "query": "no-commerce-answer"
+      },
+      {
+        "text": "Есть",
+        "query": "is-ready-to-study"
+      }
+    ]
+  },
+  "no-commerce-answer": {
+    "type": "exit",
+    "text": "Нам не подходят специалисты без опыта работы."
+  },
+  "is-ready-to-study": {
+    "type": "button",
+    "text": "Готовы ли вы работать на пол ставки и учиться?",
+    "buttons": [
+      {
+        "text": "Нет",
+        "query": "not-ready-to-study-answer"
+      },
+      {
+        "text": "Да",
+        "query": "test-question"
+      }
+    ]
+  },
+  "not-ready-to-study-answer": {
+    "type": "exit",
+    "text": "Вы нам не подходите"
+  },
+  "test-question": {
+    "type": "button",
+    "text": "Выполнение тестового задания",
+    "buttons": [
+      {
+        "text": "Не выполнил",
+        "query": "did-not-test-question-answer"
+      },
+      {
+        "text": "Выполнил",
+        "query": "did-test-question-answer"
+      }
+    ]
+  },
+  "did-not-test-question-answer": {
+    "type": "exit",
+    "text": "Приходите позже."
+  },
+  "did-test-question-answer": {
+    "type": "exit",
+    "text": "Вы приняты на работу."
+  },
+  "commerce-question-with-degree": {
+    "type": "button",
+    "text": "Есть ли коммерческий опыт работы и какой?",
+    "buttons": [
+      {
+        "text": "Менее 2-х лет",
+        "query": "is-ready-to-study"
+      },
+      {
+        "text": "От 2-х лет",
+        "query": "work-question"
+      }
+    ]
+  },
+  "work-question": {
+    "type": "button",
+    "text": "Какую область работы вы бы хотели выбрать?",
+    "buttons": [
+      {
+        "text": "Инженер ИС",
+        "query": "answer-engineer-is"
+      },
+      {
+        "text": "Программист",
+        "query": "answer-programmer"
+      },
+      {
+        "text": "Бизнес-аналитик",
+        "query": "answer-business-analyst"
+      }
+    ]
+  },
+  "answer-engineer-is": {
+    "type": "exit",
+    "text": "Вы приняты на должность Инженера ИС."
+  },
+  "answer-programmer": {
+    "type": "exit",
+    "text": "Вы приняты на должность программиста."
+  },
+  "answer-business-analyst": {
+    "type": "exit",
+    "text": "Вы приняты на должность Бизнес-аналитик."
+  }
+}
